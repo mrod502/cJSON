@@ -61,6 +61,11 @@ if (ENABLE_CUSTOM_COMPILER_FLAGS)
     endif()
 endif()
 
+option(MACOS_VERSION_MIN "Set the minimum macOS SDK version" OFF)
+if (APPLE AND MACOS_VERSION_MIN)
+    add_compile_options(-mmacosx-version-min=${MACOS_VERSION_MIN})
+endif()
+
 option(ENABLE_SANITIZERS "Enables AddressSanitizer and UndefinedBehaviorSanitizer." OFF)
 if (ENABLE_SANITIZERS)
     list(APPEND custom_compiler_flags
@@ -153,7 +158,7 @@ install(TARGETS "${CJSON_LIB}"
 )
 if (BUILD_SHARED_AND_STATIC_LIBS)
     install(TARGETS "${CJSON_LIB}-static"
-    EXPORT "${CJSON_LIB}" 
+    EXPORT "${CJSON_LIB}"
     ARCHIVE DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}"
     INCLUDES DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}"
 )
@@ -201,8 +206,8 @@ if(ENABLE_CJSON_UTILS)
         INCLUDES DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}"
     )
     if (BUILD_SHARED_AND_STATIC_LIBS)
-        install(TARGETS "${CJSON_UTILS_LIB}-static" 
-        EXPORT "${CJSON_UTILS_LIB}" 
+        install(TARGETS "${CJSON_UTILS_LIB}-static"
+        EXPORT "${CJSON_UTILS_LIB}"
         ARCHIVE DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}"
         INCLUDES DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}"
         )
